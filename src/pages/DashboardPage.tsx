@@ -79,14 +79,14 @@ export default function DashboardPage() {
 
       {loading ? (
         <div className="flex items-center justify-center h-32">
-          <div className="w-8 h-8 border-3 border-lumio-amber/30 border-t-lumio-amber rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-uppi-primary/30 border-t-uppi-primary rounded-full animate-spin" />
         </div>
       ) : childProfiles.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-500 mb-4">No child profiles yet</p>
           <Link
             to="/children/new"
-            className="px-6 py-3 bg-lumio-amber text-white font-semibold rounded-xl hover:bg-amber-600 transition-colors"
+            className="px-6 py-3 bg-uppi-primary text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors"
           >
             Add your child
           </Link>
@@ -100,7 +100,7 @@ export default function DashboardPage() {
             return (
               <div
                 key={child.id}
-                className="bg-white rounded-2xl p-5 shadow-sm border border-amber-100"
+                className="bg-white rounded-2xl p-5 shadow-sm border border-purple-100"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
@@ -173,17 +173,17 @@ export default function DashboardPage() {
 
       <div className="space-y-2">
         <h2 className="text-lg font-semibold text-gray-800">Settings</h2>
-        <div className="bg-white rounded-2xl divide-y divide-amber-50">
+        <div className="bg-white rounded-2xl divide-y divide-purple-50">
           <Link
             to="/children/new"
-            className="flex items-center justify-between p-4 hover:bg-amber-50/50 transition-colors rounded-t-2xl"
+            className="flex items-center justify-between p-4 hover:bg-purple-50/50 transition-colors rounded-t-2xl"
           >
             <span className="text-gray-700">Add child profile</span>
             <span className="text-gray-400">›</span>
           </Link>
           <Link
             to="/settings"
-            className="flex items-center justify-between p-4 hover:bg-amber-50/50 transition-colors rounded-b-2xl"
+            className="flex items-center justify-between p-4 hover:bg-purple-50/50 transition-colors rounded-b-2xl"
           >
             <span className="text-gray-700">Account settings</span>
             <span className="text-gray-400">›</span>

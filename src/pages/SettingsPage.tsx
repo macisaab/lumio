@@ -35,7 +35,7 @@ export default function SettingsPage() {
         <h1 className="text-xl font-bold text-gray-800 mt-2">Settings</h1>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-amber-100 divide-y divide-amber-50">
+      <div className="bg-white rounded-2xl shadow-sm border border-purple-100 divide-y divide-purple-50">
         <div className="p-4">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
             Account
@@ -44,8 +44,8 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-amber-100">
-        <div className="p-4 border-b border-amber-50">
+      <div className="bg-white rounded-2xl shadow-sm border border-purple-100">
+        <div className="p-4 border-b border-purple-50">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
             Child Profiles
           </h2>
@@ -55,7 +55,7 @@ export default function SettingsPage() {
           return (
             <div
               key={child.id}
-              className="p-4 flex items-center justify-between border-b border-amber-50 last:border-b-0"
+              className="p-4 flex items-center justify-between border-b border-purple-50 last:border-b-0"
             >
               <div className="flex items-center gap-3">
                 <div

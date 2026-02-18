@@ -17,7 +17,7 @@ export default function LoginForm() {
 
     try {
       await signIn(email, password)
-      navigate('/')
+      navigate('/home')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign in')
     } finally {
@@ -26,23 +26,23 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-lumio-cream px-4">
+    <div className="min-h-screen flex items-center justify-center bg-uppi-cream px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <img
-            src="/lumio.svg"
-            alt="Lumio"
+            src="/uppi.svg"
+            alt="Uppi"
             className="w-20 h-20 mx-auto mb-4"
           />
-          <h1 className="text-3xl font-bold text-lumio-dark">Welcome back</h1>
-          <p className="text-amber-700 mt-2">
+          <h1 className="text-3xl font-bold text-uppi-dark">Welcome back</h1>
+          <p className="text-purple-700 mt-2">
             Sign in to continue your child's story adventure
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-sm border border-amber-100 p-6 space-y-4"
+          className="bg-white rounded-2xl shadow-sm border border-purple-100 p-6 space-y-4"
         >
           {error && (
             <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm">
@@ -63,7 +63,7 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber focus:border-transparent bg-amber-50/50"
+              className="w-full px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary focus:border-transparent bg-purple-50/50"
               placeholder="parent@example.com"
             />
           </div>
@@ -81,7 +81,7 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber focus:border-transparent bg-amber-50/50"
+              className="w-full px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary focus:border-transparent bg-purple-50/50"
               placeholder="Your password"
             />
           </div>
@@ -89,7 +89,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-lumio-amber text-white font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-uppi-primary text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
@@ -98,7 +98,7 @@ export default function LoginForm() {
             Don't have an account?{' '}
             <Link
               to="/signup"
-              className="text-lumio-amber font-medium hover:underline"
+              className="text-uppi-primary font-medium hover:underline"
             >
               Sign up
             </Link>

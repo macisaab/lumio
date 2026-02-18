@@ -78,7 +78,7 @@ export default function ChildProfileForm({ onComplete }: Props) {
       if (onComplete) {
         onComplete()
       } else {
-        navigate('/')
+        navigate('/home')
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save profile')
@@ -104,7 +104,7 @@ export default function ChildProfileForm({ onComplete }: Props) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="What's your little one called?"
-          className="w-full px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber focus:border-transparent bg-amber-50/50 text-lg"
+          className="w-full px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary focus:border-transparent bg-purple-50/50 text-lg"
           required
         />
       </div>
@@ -121,8 +121,8 @@ export default function ChildProfileForm({ onComplete }: Props) {
               onClick={() => setAge(a)}
               className={`flex-1 py-3 rounded-xl text-lg font-bold transition-all ${
                 age === a
-                  ? 'bg-lumio-amber text-white shadow-md scale-105'
-                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                  ? 'bg-uppi-primary text-white shadow-md scale-105'
+                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
               }`}
             >
               {a}
@@ -176,8 +176,8 @@ export default function ChildProfileForm({ onComplete }: Props) {
               disabled={interests.length >= 5 && !interests.includes(interest)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                 interests.includes(interest)
-                  ? 'bg-lumio-amber text-white'
-                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed'
+                  ? 'bg-uppi-primary text-white'
+                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100 disabled:opacity-40 disabled:cursor-not-allowed'
               }`}
             >
               {interest}
@@ -196,13 +196,13 @@ export default function ChildProfileForm({ onComplete }: Props) {
               }
             }}
             placeholder="Add your own..."
-            className="flex-1 px-3 py-2 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber text-sm bg-amber-50/50"
+            className="flex-1 px-3 py-2 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary text-sm bg-purple-50/50"
           />
           <button
             type="button"
             onClick={addCustomInterest}
             disabled={interests.length >= 5}
-            className="px-4 py-2 bg-amber-100 text-amber-700 rounded-xl text-sm font-medium hover:bg-amber-200 disabled:opacity-40"
+            className="px-4 py-2 bg-purple-100 text-purple-700 rounded-xl text-sm font-medium hover:bg-purple-200 disabled:opacity-40"
           >
             Add
           </button>
@@ -212,7 +212,7 @@ export default function ChildProfileForm({ onComplete }: Props) {
       <button
         type="submit"
         disabled={saving || !name.trim()}
-        className="w-full py-4 bg-lumio-amber text-white font-bold text-lg rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+        className="w-full py-4 bg-uppi-primary text-white font-bold text-lg rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
       >
         {saving ? 'Creating profile...' : "Let's start storytelling!"}
       </button>

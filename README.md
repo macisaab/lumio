@@ -1,8 +1,8 @@
-# Lumio
+# Uppi
 
-**Every child's imagination, illuminated.**
+**Where every story begins with wonder.**
 
-Lumio is a web-based application that lets parents speak a story idea and instantly receive a short, personalized, interactive story for their child — narrated by AI voice, with tap-to-interact moments, and a digital prize system to reward engagement.
+Uppi is a web-based application that lets parents speak a story idea and instantly receive a short, personalized, interactive story for their child — narrated by AI voice, with tap-to-interact moments, and a digital prize system to reward engagement.
 
 ## Features
 
@@ -36,8 +36,8 @@ Lumio is a web-based application that lets parents speak a story idea and instan
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/macisaab/lumio.git
-   cd lumio
+   git clone https://github.com/macisaab/uppi.git
+   cd uppi
    ```
 
 2. Install dependencies:
@@ -77,12 +77,13 @@ src/
 ├── components/
 │   ├── auth/          # Login, signup forms
 │   ├── children/      # Child profile form, selector
-│   ├── layout/        # App layout with navigation
+│   ├── layout/        # App layout, animated background
 │   ├── prizes/        # Celebration screen, sticker book
-│   └── story/         # Story playback, tap moments, redirect
+│   ├── story/         # Story playback, tap moments, redirect
+│   └── ui/            # Motion wrappers (wiggle, bounce, tilt)
 ├── contexts/          # React context providers (Auth, Child, Story)
 ├── lib/               # API clients (Supabase, Claude, TTS, colors)
-├── pages/             # Route pages
+├── pages/             # Route pages (Landing, Home, Library, etc.)
 └── types/             # TypeScript type definitions
 server/                # API server for Claude + ElevenLabs proxy
 supabase/migrations/   # Database schema

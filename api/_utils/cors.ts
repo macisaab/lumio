@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 const ALLOWED_ORIGINS = [
-  process.env.ALLOWED_ORIGIN || 'https://lumio.app',
+  process.env.ALLOWED_ORIGIN || 'https://uppi.ai',
 ]
 
-const PREVIEW_PATTERN = /^https:\/\/lumio-.*\.vercel\.app$/
+const PREVIEW_PATTERN = /^https:\/\/uppi-.*\.vercel\.app$/
 
 function isOriginAllowed(origin: string | undefined): boolean {
   if (!origin) return false

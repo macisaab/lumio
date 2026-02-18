@@ -265,7 +265,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
           }}
           className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
             autoScanEnabled
-              ? 'bg-lumio-amber text-white'
+              ? 'bg-uppi-primary text-white'
               : 'bg-white/60 text-gray-500 hover:bg-white'
           }`}
           aria-label={
@@ -398,7 +398,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
               isFirstParagraph
                 ? 'opacity-0 pointer-events-none'
                 : 'bg-white/60 text-gray-500 hover:bg-white active:scale-95'
-            } ${autoScanEnabled && autoScanHighlight === 'page' ? 'ring-4 ring-lumio-amber' : ''}`}
+            } ${autoScanEnabled && autoScanHighlight === 'page' ? 'ring-4 ring-uppi-primary' : ''}`}
             aria-label="Previous page"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -417,7 +417,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
               }}
               className={`h-12 px-6 rounded-full font-semibold transition-all active:scale-95 shadow-md ${
                 autoScanEnabled && autoScanHighlight === 'next'
-                  ? 'ring-4 ring-lumio-amber ring-offset-2'
+                  ? 'ring-4 ring-uppi-primary ring-offset-2'
                   : ''
               }`}
               style={{ backgroundColor: color.hex, color: 'white' }}

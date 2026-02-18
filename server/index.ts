@@ -144,5 +144,5 @@ function readBody(req: import('http').IncomingMessage): Promise<string> {
 
 const PORT = process.env.PORT || 3001
 server.listen(PORT, () => {
-  console.log(`Lumio API server running on port ${PORT}`)
+  console.log(`Uppi API server running on port ${PORT}`)
 })

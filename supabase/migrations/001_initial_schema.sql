@@ -1,4 +1,4 @@
--- Lumio Database Schema
+-- Uppi Database Schema
 -- Run this migration to set up all required tables
 
 -- Enable UUID generation

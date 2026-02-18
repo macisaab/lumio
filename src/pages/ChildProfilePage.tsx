@@ -21,7 +21,7 @@ export default function ChildProfilePage() {
         </p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-6">
+      <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-6">
         <ChildProfileForm />
       </div>
     </div>

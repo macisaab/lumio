@@ -220,8 +220,8 @@ export default function HomePage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-12 text-center">
         <div className="text-6xl mb-4">✨</div>
-        <h1 className="text-2xl font-bold text-lumio-dark mb-2">
-          Welcome to Lumio!
+        <h1 className="text-2xl font-bold text-uppi-dark mb-2">
+          Welcome to Uppi!
         </h1>
         <p className="text-gray-600 mb-6">
           Let's set up your first child profile to start creating magical
@@ -229,7 +229,7 @@ export default function HomePage() {
         </p>
         <button
           onClick={() => navigate('/children/new')}
-          className="px-8 py-3 bg-lumio-amber text-white font-bold rounded-xl hover:bg-amber-600 transition-colors shadow-md"
+          className="px-8 py-3 bg-uppi-primary text-white font-bold rounded-xl hover:bg-purple-700 transition-colors shadow-md"
         >
           Add your child
         </button>
@@ -280,7 +280,7 @@ export default function HomePage() {
                 </h2>
                 <button
                   onClick={() => navigate('/stories')}
-                  className="text-xs text-lumio-amber hover:underline"
+                  className="text-xs text-uppi-primary hover:underline"
                 >
                   See all
                 </button>
@@ -299,7 +299,7 @@ export default function HomePage() {
                       setIsReplay(true)
                       setPhase('playing')
                     }}
-                    className="flex-shrink-0 bg-white rounded-xl p-3 shadow-sm border border-amber-100 text-left max-w-[180px] hover:shadow-md transition-shadow"
+                    className="flex-shrink-0 bg-white rounded-xl p-3 shadow-sm border border-purple-100 text-left max-w-[180px] hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-center gap-1 mb-1">
                       <span className="text-xs">❤️</span>
