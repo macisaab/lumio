@@ -35,9 +35,9 @@ function buildImagePrompt(
 
   return [
     `Children's book illustration, soft watercolor style, warm and friendly.`,
-    `Scene from "${storyTitle}": ${summary}`,
-    `Style: gentle pastel colors, simple rounded shapes, age 1-4 appropriate,`,
-    `no text or words in the image, ${childColor} color accents.`,
+    `Scene: ${summary}`,
+    `Style: gentle pastel colors, simple rounded shapes, age 1-4 appropriate, ${childColor} color accents.`,
+    `IMPORTANT: absolutely no text, letters, words, numbers, labels, or writing of any kind anywhere in the image.`,
   ].join(' ')
 }
 

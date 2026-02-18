@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useChildren } from '../contexts/ChildContext'
 import { useStories } from '../contexts/StoryContext'
 import { generateStory } from '../lib/claude'
+import type { Language } from '../lib/languages'
 import { generateAllPageImages } from '../lib/images'
 import { getColorConfig } from '../lib/colors'
 import ChildSelector from '../components/children/ChildSelector'
@@ -32,6 +33,7 @@ export default function HomePage() {
   const [imageUrls, setImageUrls] = useState<Record<number, string>>({})
   const imageGenRef = useRef(false)
   const [error, setError] = useState('')
+  const [storyLanguage, setStoryLanguage] = useState<Language | undefined>()
 
   // Handle replay from library via ?replay=storyId
   useEffect(() => {
@@ -61,13 +63,14 @@ export default function HomePage() {
   }, [activeChild, fetchStories])
 
   const handleGenerateStory = useCallback(
-    async (prompt: string) => {
+    async (prompt: string, language: Language) => {
+      setStoryLanguage(language)
       if (!activeChild) return
       setError('')
       setGenerating(true)
 
       try {
-        const story = await generateStory(activeChild, prompt)
+        const story = await generateStory(activeChild, prompt, language)
         setCurrentStory(story)
         setImageUrls({})
 
@@ -199,6 +202,7 @@ export default function HomePage() {
         child={activeChild}
         onComplete={handleStoryComplete}
         imageUrls={imageUrls}
+        language={storyLanguage}
       />
     )
   }

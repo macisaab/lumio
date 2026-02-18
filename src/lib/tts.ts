@@ -15,7 +15,7 @@ export async function generateSpeech(text: string): Promise<ArrayBuffer> {
 export function createAudioFromBuffer(buffer: ArrayBuffer): HTMLAudioElement {
   const blob = new Blob([buffer], { type: 'audio/mpeg' })
   const url = URL.createObjectURL(blob)
-  const audio = new HTMLAudioElement()
+  const audio = new Audio()
   audio.src = url
   return audio
 }

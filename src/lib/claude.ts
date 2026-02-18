@@ -1,8 +1,13 @@
 import type { Child, StoryGenerationResponse, StoryParagraph } from '../types'
+import type { Language } from './languages'
+import { DEFAULT_LANGUAGE } from './languages'
 
-const SYSTEM_PROMPT = `You are a children's story writer creating short, joyful stories for children aged 1–4. Write in simple, repetitive language with plenty of sounds and expressive words. Naturally weave in the child's favorite color when describing objects, clothes, or scenery. Always personalize the story using the child's name and interests. Structure output as JSON only. Do not include any text outside the JSON object.`
+function getSystemPrompt(language: Language): string {
+  const lang = language.label
+  return `You are a children's story writer creating short, joyful stories for children aged 1-4. Write entirely in ${lang} using simple, repetitive language with plenty of sounds and expressive words. Naturally weave in the child's favorite color when describing objects, clothes, or scenery. Always personalize the story using the child's name and interests. All story text, tap moment prompts, and the title must be in ${lang}. Structure output as JSON only. Do not include any text outside the JSON object.`
+}
 
-export function buildStoryPrompt(child: Child, prompt: string): string {
+export function buildStoryPrompt(child: Child, prompt: string, language: Language = DEFAULT_LANGUAGE): string {
   return `Child name: ${child.name}, Age: ${child.age}, Favorite color: ${child.favorite_color}, Interests: ${child.interests.join(', ')}. Story idea: ${prompt}. Return JSON: { "title": "string", "paragraphs": [{"text": "string", "tap_moment": null | {"prompt": "string", "emoji": "string", "sound": "string"}}] }. Max 6 paragraphs. Include exactly 3 tap moments across the paragraphs. End paragraph must include earning a sticker.`
 }
 
@@ -31,15 +36,16 @@ export function buildSurprisePrompt(child: Child): string {
 
 export async function generateStory(
   child: Child,
-  prompt: string
+  prompt: string,
+  language: Language = DEFAULT_LANGUAGE
 ): Promise<StoryGenerationResponse> {
-  const userPrompt = buildStoryPrompt(child, prompt)
+  const userPrompt = buildStoryPrompt(child, prompt, language)
 
   const response = await fetch('/api/generate-story', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemPrompt: SYSTEM_PROMPT,
+      systemPrompt: getSystemPrompt(language),
       userPrompt,
     }),
   })
@@ -55,7 +61,8 @@ export async function generateStory(
 export async function redirectStory(
   readParagraphs: StoryParagraph[],
   redirectCommand: string,
-  remainingCount: number
+  remainingCount: number,
+  language: Language = DEFAULT_LANGUAGE
 ): Promise<{ paragraphs: StoryParagraph[] }> {
   const userPrompt = buildRedirectPrompt(
     readParagraphs,
@@ -67,7 +74,7 @@ export async function redirectStory(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemPrompt: SYSTEM_PROMPT,
+      systemPrompt: getSystemPrompt(language),
       userPrompt,
     }),
   })

@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import type { StoryParagraph, StoryGenerationResponse, Child } from '../../types'
 import { redirectStory } from '../../lib/claude'
+import { DEFAULT_LANGUAGE, type Language } from '../../lib/languages'
 import { getPastelBg, getColorConfig } from '../../lib/colors'
 import TapMoment from './TapMoment'
 import StoryRedirect from './StoryRedirect'
@@ -18,16 +19,16 @@ interface Props {
   child: Child
   onComplete: () => void
   imageUrls?: Record<number, string>
+  language?: Language
 }
 
 // Minimum drag distance (px) to register as a swipe
 const SWIPE_THRESHOLD = 50
 
-export default function StoryPlayback({ story, child, onComplete, imageUrls = {} }: Props) {
+export default function StoryPlayback({ story, child, onComplete, imageUrls = {}, language = DEFAULT_LANGUAGE }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [paragraphs, setParagraphs] = useState<StoryParagraph[]>(story.paragraphs)
   const [showTapMoment, setShowTapMoment] = useState(false)
-  const [tapCompleted, setTapCompleted] = useState(false)
   const [showRedirect, setShowRedirect] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right'>('left')
@@ -48,15 +49,15 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
   const isFirstParagraph = currentIndex === 0
   const isLastParagraph = currentIndex === paragraphs.length - 1
   const hasTapMoment = currentParagraph?.tap_moment != null
-  const canAdvance = !hasTapMoment || tapCompleted
+  const canAdvance = true
 
   // Show tap moment after a short delay
   useEffect(() => {
-    if (hasTapMoment && !tapCompleted) {
+    if (hasTapMoment) {
       const timer = setTimeout(() => setShowTapMoment(true), 1500)
       return () => clearTimeout(timer)
     }
-  }, [currentIndex, hasTapMoment, tapCompleted])
+  }, [currentIndex, hasTapMoment])
 
   const goToNext = useCallback(() => {
     if (!canAdvance) return
@@ -66,7 +67,6 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
       setSwipeDirection('left')
       setCurrentIndex((i) => i + 1)
       setShowTapMoment(false)
-      setTapCompleted(false)
     }
   }, [isLastParagraph, onComplete, canAdvance])
 
@@ -75,7 +75,6 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
     setSwipeDirection('right')
     setCurrentIndex((i) => i - 1)
     setShowTapMoment(false)
-    setTapCompleted(false)
   }, [isFirstParagraph])
 
   const goToPage = useCallback(
@@ -84,15 +83,10 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
       setSwipeDirection(index > currentIndex ? 'left' : 'right')
       setCurrentIndex(index)
       setShowTapMoment(false)
-      setTapCompleted(false)
     },
     [paragraphs.length, currentIndex]
   )
 
-  const handleTap = () => {
-    setTapCompleted(true)
-    setShowTapMoment(false)
-  }
 
   // --- Pointer (touch + mouse) swipe handling ---
   const onPointerDown = (e: ReactPointerEvent) => {
@@ -129,11 +123,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
         case ' ':
         case 'Enter':
           e.preventDefault()
-          if (showTapMoment && !tapCompleted) {
-            handleTap()
-          } else if (canAdvance) {
-            goToNext()
-          }
+          if (canAdvance) goToNext()
           break
         case 'ArrowLeft':
         case 'Backspace':
@@ -157,7 +147,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showRedirect, showTapMoment, tapCompleted, canAdvance, goToNext, goToPrev, goToPage, paragraphs.length, autoScanEnabled]
+    [showRedirect, canAdvance, goToNext, goToPrev, goToPage, paragraphs.length, autoScanEnabled]
   )
 
   // Global keyboard listener
@@ -180,7 +170,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
     }
 
     const targets: typeof autoScanHighlight[] =
-      showTapMoment && !tapCompleted ? ['tap', 'page'] : ['next', 'page']
+      showTapMoment ? ['tap', 'page'] : ['next', 'page']
 
     let i = 0
     setAutoScanHighlight(targets[0])
@@ -193,13 +183,11 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
     return () => {
       if (autoScanTimer.current) clearInterval(autoScanTimer.current)
     }
-  }, [autoScanEnabled, showTapMoment, tapCompleted])
+  }, [autoScanEnabled, showTapMoment])
 
   const onSwitchActivate = () => {
     if (!autoScanEnabled) return
-    if (autoScanHighlight === 'tap' && showTapMoment && !tapCompleted) {
-      handleTap()
-    } else if (autoScanHighlight === 'next') {
+    if (autoScanHighlight === 'next') {
       if (canAdvance) goToNext()
     }
   }
@@ -210,7 +198,7 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
     try {
       const readParagraphs = paragraphs.slice(0, currentIndex + 1)
       const remainingCount = paragraphs.length - currentIndex - 1
-      const result = await redirectStory(readParagraphs, command, remainingCount)
+      const result = await redirectStory(readParagraphs, command, remainingCount, language)
       setParagraphs([...readParagraphs, ...result.paragraphs])
       setShowRedirect(false)
       goToNext()
@@ -326,7 +314,6 @@ export default function StoryPlayback({ story, child, onComplete, imageUrls = {}
                   {showTapMoment && currentParagraph?.tap_moment && (
                     <TapMoment
                       tapMoment={currentParagraph.tap_moment}
-                      onTap={handleTap}
                       highlighted={autoScanEnabled && autoScanHighlight === 'tap'}
                     />
                   )}
