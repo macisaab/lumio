@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useCallback, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useChildren } from '../contexts/ChildContext'
 import { useStories } from '../contexts/StoryContext'
 import { generateStory } from '../lib/claude'
@@ -20,13 +20,42 @@ type Phase = 'input' | 'playing' | 'celebration'
 
 export default function HomePage() {
   const { activeChild, children } = useChildren()
-  const { saveStory, completeStory, fetchStories } = useStories()
+  const { stories, saveStory, completeStory, fetchStories, recordView } = useStories()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [phase, setPhase] = useState<Phase>('input')
   const [generating, setGenerating] = useState(false)
   const [currentStory, setCurrentStory] = useState<StoryGenerationResponse | null>(null)
   const [savedStoryId, setSavedStoryId] = useState<string | null>(null)
+  const [isReplay, setIsReplay] = useState(false)
   const [error, setError] = useState('')
+
+  // Handle replay from library via ?replay=storyId
+  useEffect(() => {
+    const replayId = searchParams.get('replay')
+    if (!replayId || !activeChild || stories.length === 0) return
+
+    const story = stories.find((s) => s.id === replayId)
+    if (!story) return
+
+    // Clear the query param so refreshes don't re-trigger
+    setSearchParams({}, { replace: true })
+
+    setCurrentStory({
+      title: story.title,
+      paragraphs: story.paragraphs,
+    })
+    setSavedStoryId(story.id)
+    setIsReplay(true)
+    setPhase('playing')
+  }, [searchParams, stories, activeChild, setSearchParams])
+
+  // Fetch stories for replay support
+  useEffect(() => {
+    if (activeChild) {
+      fetchStories(activeChild.id)
+    }
+  }, [activeChild, fetchStories])
 
   const handleGenerateStory = useCallback(
     async (prompt: string) => {
@@ -50,6 +79,11 @@ export default function HomePage() {
           completed_at: null,
         })
         setSavedStoryId(saved.id)
+        setIsReplay(false)
+
+        // Record the first view
+        await recordView(saved.id)
+
         setPhase('playing')
       } catch {
         setError('Failed to generate story. Please try again.')
@@ -57,11 +91,20 @@ export default function HomePage() {
         setGenerating(false)
       }
     },
-    [activeChild, saveStory]
+    [activeChild, saveStory, recordView]
   )
 
   const handleStoryComplete = useCallback(async () => {
     if (!savedStoryId || !activeChild) return
+
+    // For replays, just record the view — don't re-complete or re-award
+    if (isReplay) {
+      setPhase('input')
+      setCurrentStory(null)
+      setSavedStoryId(null)
+      setIsReplay(false)
+      return
+    }
 
     await completeStory(savedStoryId)
 
@@ -102,12 +145,13 @@ export default function HomePage() {
     }
 
     setPhase('celebration')
-  }, [savedStoryId, activeChild, completeStory, currentStory])
+  }, [savedStoryId, activeChild, completeStory, currentStory, isReplay])
 
   const handleContinue = () => {
     setPhase('input')
     setCurrentStory(null)
     setSavedStoryId(null)
+    setIsReplay(false)
     if (activeChild) {
       fetchStories(activeChild.id)
     }
@@ -159,6 +203,11 @@ export default function HomePage() {
 
   const color = activeChild ? getColorConfig(activeChild.favorite_color) : null
 
+  // Recent favorites for quick access
+  const recentFavorites = stories
+    .filter((s) => s.is_favorite)
+    .slice(0, 3)
+
   return (
     <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
       <ChildSelector />
@@ -185,6 +234,51 @@ export default function HomePage() {
             onSubmit={handleGenerateStory}
             loading={generating}
           />
+
+          {/* Quick favorites section */}
+          {recentFavorites.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-sm font-semibold text-gray-500">
+                  Favorite stories
+                </h2>
+                <button
+                  onClick={() => navigate('/stories')}
+                  className="text-xs text-lumio-amber hover:underline"
+                >
+                  See all
+                </button>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {recentFavorites.map((story) => (
+                  <button
+                    key={story.id}
+                    onClick={() => {
+                      recordView(story.id)
+                      setCurrentStory({
+                        title: story.title,
+                        paragraphs: story.paragraphs,
+                      })
+                      setSavedStoryId(story.id)
+                      setIsReplay(true)
+                      setPhase('playing')
+                    }}
+                    className="flex-shrink-0 bg-white rounded-xl p-3 shadow-sm border border-amber-100 text-left max-w-[180px] hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-1 mb-1">
+                      <span className="text-xs">❤️</span>
+                      <span className="text-xs text-gray-400">
+                        {story.view_count} reads
+                      </span>
+                    </div>
+                    <p className="text-sm font-medium text-gray-800 truncate">
+                      {story.title}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {activeChild.interests.length > 0 && (
             <div className="text-center">

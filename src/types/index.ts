@@ -36,9 +36,15 @@ export interface Story {
   tap_moments: TapMoment[]
   audio_url: string | null
   redirect_history: RedirectEntry[]
+  is_favorite: boolean
+  view_count: number
+  last_viewed_at: string | null
   created_at: string
   completed_at: string | null
 }
+
+export type StoryFilter = 'all' | 'favorites' | 'completed'
+export type StorySortBy = 'recent' | 'most_viewed' | 'last_read' | 'title'
 
 export interface RedirectEntry {
   paragraph_index: number
