@@ -1,7 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { createServer } from 'http'
 
 const anthropic = new Anthropic()
+const openai = new OpenAI()
 
 const server = createServer(async (req, res) => {
   // CORS headers
@@ -49,6 +51,34 @@ const server = createServer(async (req, res) => {
       console.error('Story generation error:', error)
       res.writeHead(500, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ error: 'Failed to generate story' }))
+    }
+    return
+  }
+
+  if (url.pathname === '/api/generate-image' && req.method === 'POST') {
+    try {
+      const body = await readBody(req)
+      const { prompt } = JSON.parse(body)
+
+      const response = await openai.images.generate({
+        model: 'dall-e-3',
+        prompt,
+        n: 1,
+        size: '1024x1024',
+        quality: 'standard',
+      })
+
+      const imageUrl = response.data[0]?.url
+      if (!imageUrl) {
+        throw new Error('No image URL in response')
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ url: imageUrl }))
+    } catch (error) {
+      console.error('Image generation error:', error)
+      res.writeHead(500, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ error: 'Failed to generate image' }))
     }
     return
   }

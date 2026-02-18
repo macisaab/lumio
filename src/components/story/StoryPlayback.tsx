@@ -17,12 +17,13 @@ interface Props {
   story: StoryGenerationResponse
   child: Child
   onComplete: () => void
+  imageUrls?: Record<number, string>
 }
 
 // Minimum drag distance (px) to register as a swipe
 const SWIPE_THRESHOLD = 50
 
-export default function StoryPlayback({ story, child, onComplete }: Props) {
+export default function StoryPlayback({ story, child, onComplete, imageUrls = {} }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [paragraphs, setParagraphs] = useState<StoryParagraph[]>(story.paragraphs)
   const [showTapMoment, setShowTapMoment] = useState(false)
@@ -296,32 +297,41 @@ export default function StoryPlayback({ story, child, onComplete }: Props) {
             aria-label={`Page ${currentIndex + 1}`}
           >
             <div
-              className="bg-white/85 backdrop-blur-sm rounded-3xl p-8 shadow-lg min-h-[280px] flex flex-col justify-center"
+              className="bg-white/85 backdrop-blur-sm rounded-3xl shadow-lg min-h-[280px] flex flex-col overflow-hidden"
               style={{ borderTop: `4px solid ${color.hex}` }}
             >
-              {currentIndex === 0 && (
-                <h2
-                  className="text-2xl font-bold text-center mb-6 text-gray-800"
-                  role="heading"
-                  aria-level={1}
-                >
-                  {story.title}
-                </h2>
-              )}
+              {/* Page illustration */}
+              <PageImage
+                url={currentParagraph?.image_url || imageUrls[currentIndex]}
+                alt={`Illustration for page ${currentIndex + 1}`}
+                accentColor={color.pastel}
+              />
 
-              <p className="text-xl leading-relaxed text-gray-700 text-center">
-                {currentParagraph?.text}
-              </p>
-
-              <AnimatePresence>
-                {showTapMoment && currentParagraph?.tap_moment && (
-                  <TapMoment
-                    tapMoment={currentParagraph.tap_moment}
-                    onTap={handleTap}
-                    highlighted={autoScanEnabled && autoScanHighlight === 'tap'}
-                  />
+              <div className="p-8 flex flex-col justify-center flex-1">
+                {currentIndex === 0 && (
+                  <h2
+                    className="text-2xl font-bold text-center mb-6 text-gray-800"
+                    role="heading"
+                    aria-level={1}
+                  >
+                    {story.title}
+                  </h2>
                 )}
-              </AnimatePresence>
+
+                <p className="text-xl leading-relaxed text-gray-700 text-center">
+                  {currentParagraph?.text}
+                </p>
+
+                <AnimatePresence>
+                  {showTapMoment && currentParagraph?.tap_moment && (
+                    <TapMoment
+                      tapMoment={currentParagraph.tap_moment}
+                      onTap={handleTap}
+                      highlighted={autoScanEnabled && autoScanHighlight === 'tap'}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -438,6 +448,55 @@ export default function StoryPlayback({ story, child, onComplete }: Props) {
           />
         )}
       </AnimatePresence>
+    </div>
+  )
+}
+
+/** Page illustration with shimmer loading state */
+function PageImage({
+  url,
+  alt,
+  accentColor,
+}: {
+  url: string | undefined
+  alt: string
+  accentColor: string
+}) {
+  const [loaded, setLoaded] = useState(false)
+
+  // Reset loaded state when URL changes
+  useEffect(() => {
+    setLoaded(false)
+  }, [url])
+
+  if (!url) {
+    // Shimmer placeholder while image is generating
+    return (
+      <div
+        className="w-full aspect-square animate-pulse rounded-t-2xl"
+        style={{ backgroundColor: accentColor }}
+        aria-hidden="true"
+      />
+    )
+  }
+
+  return (
+    <div className="relative w-full aspect-square">
+      {!loaded && (
+        <div
+          className="absolute inset-0 animate-pulse rounded-t-2xl"
+          style={{ backgroundColor: accentColor }}
+        />
+      )}
+      <img
+        src={url}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={`w-full aspect-square object-cover rounded-t-2xl transition-opacity duration-500 ${
+          loaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
     </div>
   )
 }

@@ -26,6 +26,7 @@ export interface TapMoment {
 export interface StoryParagraph {
   text: string
   tap_moment: TapMoment | null
+  image_url?: string
 }
 
 export interface Story {

@@ -1,8 +1,9 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useChildren } from '../contexts/ChildContext'
 import { useStories } from '../contexts/StoryContext'
 import { generateStory } from '../lib/claude'
+import { generateAllPageImages } from '../lib/images'
 import { getColorConfig } from '../lib/colors'
 import ChildSelector from '../components/children/ChildSelector'
 import StoryPromptInput from '../components/story/StoryPromptInput'
@@ -28,6 +29,8 @@ export default function HomePage() {
   const [currentStory, setCurrentStory] = useState<StoryGenerationResponse | null>(null)
   const [savedStoryId, setSavedStoryId] = useState<string | null>(null)
   const [isReplay, setIsReplay] = useState(false)
+  const [imageUrls, setImageUrls] = useState<Record<number, string>>({})
+  const imageGenRef = useRef(false)
   const [error, setError] = useState('')
 
   // Handle replay from library via ?replay=storyId
@@ -66,6 +69,7 @@ export default function HomePage() {
       try {
         const story = await generateStory(activeChild, prompt)
         setCurrentStory(story)
+        setImageUrls({})
 
         const saved = await saveStory({
           child_id: activeChild.id,
@@ -85,6 +89,35 @@ export default function HomePage() {
         await recordView(saved.id)
 
         setPhase('playing')
+
+        // Fire off parallel image generation in the background
+        imageGenRef.current = true
+        generateAllPageImages(
+          story.paragraphs,
+          activeChild.favorite_color,
+          story.title,
+          (index, url) => {
+            if (!imageGenRef.current) return
+            setImageUrls((prev) => ({ ...prev, [index]: url }))
+            // Update the saved story with the image URL
+            supabase
+              .from('stories')
+              .select('paragraphs')
+              .eq('id', saved.id)
+              .single()
+              .then(({ data }) => {
+                if (data) {
+                  const paragraphs = [...data.paragraphs]
+                  paragraphs[index] = { ...paragraphs[index], image_url: url }
+                  supabase
+                    .from('stories')
+                    .update({ paragraphs })
+                    .eq('id', saved.id)
+                    .then(() => {})
+                }
+              })
+          }
+        )
       } catch {
         setError('Failed to generate story. Please try again.')
       } finally {
@@ -148,10 +181,12 @@ export default function HomePage() {
   }, [savedStoryId, activeChild, completeStory, currentStory, isReplay])
 
   const handleContinue = () => {
+    imageGenRef.current = false
     setPhase('input')
     setCurrentStory(null)
     setSavedStoryId(null)
     setIsReplay(false)
+    setImageUrls({})
     if (activeChild) {
       fetchStories(activeChild.id)
     }
@@ -163,6 +198,7 @@ export default function HomePage() {
         story={currentStory}
         child={activeChild}
         onComplete={handleStoryComplete}
+        imageUrls={imageUrls}
       />
     )
   }
