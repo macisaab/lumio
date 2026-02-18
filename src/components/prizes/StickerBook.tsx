@@ -57,7 +57,7 @@ export default function StickerBook() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-3 border-lumio-amber/30 border-t-lumio-amber rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-uppi-primary/30 border-t-uppi-primary rounded-full animate-spin" />
       </div>
     )
   }
@@ -83,7 +83,7 @@ export default function StickerBook() {
               key={m.count}
               className={`flex-shrink-0 flex flex-col items-center gap-1 p-3 rounded-xl border-2 ${
                 earned
-                  ? 'border-lumio-amber bg-lumio-warm'
+                  ? 'border-uppi-primary bg-uppi-shimmer'
                   : 'border-gray-200 bg-gray-50 opacity-50'
               }`}
             >

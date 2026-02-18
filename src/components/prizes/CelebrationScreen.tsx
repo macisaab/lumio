@@ -30,14 +30,14 @@ export default function CelebrationScreen({
         angle: 60,
         spread: 55,
         origin: { x: 0, y: 0.7 },
-        colors: ['#FBBF24', '#F59E0B', '#FDE68A', '#F97316', '#EC4899'],
+        colors: ['#8B5CF6', '#C084FC', '#FFD700', '#F0ABFC', '#E0E7FF'],
       })
       confetti({
         particleCount: 3,
         angle: 120,
         spread: 55,
         origin: { x: 1, y: 0.7 },
-        colors: ['#FBBF24', '#F59E0B', '#FDE68A', '#F97316', '#EC4899'],
+        colors: ['#8B5CF6', '#C084FC', '#FFD700', '#F0ABFC', '#E0E7FF'],
       })
 
       if (Date.now() < end) {
@@ -48,7 +48,7 @@ export default function CelebrationScreen({
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-lumio-warm to-lumio-cream px-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-uppi-shimmer to-uppi-cream px-6">
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -67,7 +67,7 @@ export default function CelebrationScreen({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-3xl font-bold text-lumio-dark mb-2"
+          className="text-3xl font-bold text-uppi-dark mb-2"
         >
           Great listening, {childName}!
         </motion.h1>
@@ -76,7 +76,7 @@ export default function CelebrationScreen({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="text-lg text-amber-700 mb-2"
+          className="text-lg text-purple-700 mb-2"
         >
           You earned a new sticker!
         </motion.p>
@@ -98,7 +98,7 @@ export default function CelebrationScreen({
         >
           <button
             onClick={onContinue}
-            className="w-full max-w-xs mx-auto block py-4 bg-lumio-amber text-white font-bold text-lg rounded-xl hover:bg-amber-600 transition-colors shadow-md"
+            className="w-full max-w-xs mx-auto block py-4 bg-uppi-primary text-white font-bold text-lg rounded-xl hover:bg-purple-700 transition-colors shadow-md"
           >
             Continue
           </button>

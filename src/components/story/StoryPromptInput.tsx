@@ -47,7 +47,7 @@ export default function StoryPromptInput({ onSubmit, loading }: Props) {
           onChange={(e) => setPrompt(e.target.value)}
           placeholder={placeholder}
           rows={3}
-          className="w-full px-4 py-4 rounded-2xl border-2 border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber focus:border-transparent bg-white text-lg resize-none placeholder:text-amber-300"
+          className="w-full px-4 py-4 rounded-2xl border-2 border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary focus:border-transparent bg-white text-lg resize-none placeholder:text-purple-300"
           disabled={loading}
         />
       </div>
@@ -57,14 +57,14 @@ export default function StoryPromptInput({ onSubmit, loading }: Props) {
           type="button"
           onClick={handleSurprise}
           disabled={loading || !activeChild}
-          className="flex-1 py-3 bg-amber-50 text-amber-700 font-semibold rounded-xl hover:bg-amber-100 transition-colors disabled:opacity-50 border-2 border-amber-200"
+          className="flex-1 py-3 bg-purple-50 text-purple-700 font-semibold rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-50 border-2 border-purple-200"
         >
           Surprise me!
         </button>
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
-          className="flex-2 py-3 bg-lumio-amber text-white font-bold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50 shadow-md px-8"
+          className="flex-2 py-3 bg-uppi-primary text-white font-bold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 shadow-md px-8"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">

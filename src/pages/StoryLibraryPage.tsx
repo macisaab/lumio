@@ -89,7 +89,7 @@ function StoryCard({ story, colorHex, colorPastel, onToggleFavorite, onReplay }:
                 e.stopPropagation()
                 onToggleFavorite()
               }}
-              className="p-1.5 -mt-1 -mr-1 rounded-lg hover:bg-amber-50 transition-colors"
+              className="p-1.5 -mt-1 -mr-1 rounded-lg hover:bg-purple-50 transition-colors"
               aria-label={story.is_favorite ? 'Remove from favorites' : 'Add to favorites'}
             >
               <span className="text-xl">
@@ -119,7 +119,7 @@ function StoryCard({ story, colorHex, colorPastel, onToggleFavorite, onReplay }:
               {story.redirect_history.map((r, i) => (
                 <span
                   key={i}
-                  className="text-xs bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full"
+                  className="text-xs bg-purple-50 text-purple-600 px-2 py-0.5 rounded-full"
                 >
                   "{r.command}"
                 </span>
@@ -167,7 +167,7 @@ export default function StoryLibraryPage() {
 
   const handleReplay = (story: Story) => {
     recordView(story.id)
-    navigate(`/?replay=${story.id}`)
+    navigate(`/home?replay=${story.id}`)
   }
 
   if (!activeChild) {
@@ -183,7 +183,7 @@ export default function StoryLibraryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-3 border-lumio-amber/30 border-t-lumio-amber rounded-full animate-spin" />
+        <div className="w-8 h-8 border-3 border-uppi-primary/30 border-t-uppi-primary rounded-full animate-spin" />
       </div>
     )
   }
@@ -231,7 +231,7 @@ export default function StoryLibraryPage() {
                     }}
                     className={`w-full text-left px-4 py-2 text-sm transition-colors ${
                       sortBy === opt.key
-                        ? 'text-lumio-amber font-medium bg-amber-50'
+                        ? 'text-uppi-primary font-medium bg-purple-50'
                         : 'text-gray-600 hover:bg-gray-50'
                     }`}
                   >
@@ -278,8 +278,8 @@ export default function StoryLibraryPage() {
             Create your first story and it'll appear here
           </p>
           <button
-            onClick={() => navigate('/')}
-            className="px-6 py-3 bg-lumio-amber text-white font-semibold rounded-xl hover:bg-amber-600 transition-colors shadow-md"
+            onClick={() => navigate('/home')}
+            className="px-6 py-3 bg-uppi-primary text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors shadow-md"
           >
             Create a story
           </button>

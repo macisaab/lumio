@@ -52,7 +52,7 @@ export default function TapMoment({ tapMoment, onTap, highlighted }: Props) {
       role="group"
       aria-label="Interactive moment"
     >
-      <p className="text-sm text-amber-600 mb-3 font-medium" id="tap-moment-label">
+      <p className="text-sm text-purple-600 mb-3 font-medium" id="tap-moment-label">
         {tapMoment.prompt}
       </p>
       <motion.button
@@ -83,10 +83,10 @@ export default function TapMoment({ tapMoment, onTap, highlighted }: Props) {
               }
         }
         className={`w-28 h-28 rounded-full flex items-center justify-center shadow-lg transition-shadow
-          bg-lumio-warm border-4 border-lumio-yellow
-          hover:shadow-xl active:bg-amber-200
-          focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lumio-amber focus-visible:ring-offset-2
-          ${highlighted ? 'ring-4 ring-lumio-amber ring-offset-2 animate-pulse' : ''}`}
+          bg-uppi-shimmer border-4 border-uppi-secondary
+          hover:shadow-xl active:bg-purple-200
+          focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-uppi-primary focus-visible:ring-offset-2
+          ${highlighted ? 'ring-4 ring-uppi-primary ring-offset-2 animate-pulse' : ''}`}
         aria-labelledby="tap-moment-label"
         aria-roledescription="interactive story element"
         autoFocus

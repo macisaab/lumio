@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#C084FC"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EDE9FE"/>
+      <stop offset="100%" stop-color="#FAF5FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="32" cy="30" r="26" fill="url(#bgGrad)" stroke="#C084FC" stroke-width="2"/>
+  <!-- Rounded star body -->
+  <path d="M32 8 L36.5 20.5 L50 21 L39.5 29.5 L43 43 L32 35.5 L21 43 L24.5 29.5 L14 21 L27.5 20.5 Z" fill="url(#starGrad)" stroke="#7C3AED" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Eyes -->
+  <circle cx="27" cy="25" r="2.2" fill="#3B0764"/>
+  <circle cx="37" cy="25" r="2.2" fill="#3B0764"/>
+  <!-- Eye sparkles -->
+  <circle cx="27.8" cy="24" r="0.8" fill="white"/>
+  <circle cx="37.8" cy="24" r="0.8" fill="white"/>
+  <!-- Smile -->
+  <path d="M27 30 Q32 35 37 30" stroke="#3B0764" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Gold sparkle top-right -->
+  <path d="M48 10 L49 13 L52 14 L49 15 L48 18 L47 15 L44 14 L47 13 Z" fill="#FFD700"/>
+  <!-- Small sparkle top-left -->
+  <path d="M12 16 L13 18 L15 19 L13 20 L12 22 L11 20 L9 19 L11 18 Z" fill="#F0ABFC"/>
+  <!-- Tiny sparkle right -->
+  <circle cx="53" cy="28" r="1.5" fill="#FFD700" opacity="0.8"/>
+  <!-- Tiny sparkle left -->
+  <circle cx="7" cy="32" r="1" fill="#C084FC" opacity="0.6"/>
+  <!-- Text -->
+  <text x="32" y="56" text-anchor="middle" font-family="Nunito, system-ui, sans-serif" font-weight="800" font-size="11" fill="#3B0764">uppi</text>
+</svg>

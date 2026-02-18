@@ -6,15 +6,15 @@ import ChildProfileForm from '../components/children/ChildProfileForm'
 const ONBOARDING_STEPS = [
   {
     emoji: '✨',
-    title: "Welcome to Lumio!",
+    title: "Welcome to Uppi!",
     description:
-      "Every child's imagination, illuminated. Create personalized stories your little one will love.",
+      "Where every story begins with wonder. Create personalized stories your little one will love.",
   },
   {
     emoji: '🎙️',
     title: 'You speak, we create',
     description:
-      "Type a story idea — like 'a bunny who gets lost in the garden' — and Lumio brings it to life with narration and interactive moments.",
+      "Type a story idea — like 'a bunny who gets lost in the garden' — and Uppi brings it to life with narration and interactive moments.",
   },
   {
     emoji: '👆',
@@ -39,18 +39,18 @@ export default function OnboardingPage() {
 
   if (showProfile) {
     return (
-      <div className="min-h-screen bg-lumio-cream px-4 py-8">
+      <div className="min-h-screen bg-uppi-cream px-4 py-8">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-lumio-dark">
+            <h1 className="text-2xl font-bold text-uppi-dark">
               Tell us about your child
             </h1>
-            <p className="text-amber-700 mt-1">
+            <p className="text-purple-700 mt-1">
               We'll personalize every story for them
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-6">
-            <ChildProfileForm onComplete={() => navigate('/')} />
+          <div className="bg-white rounded-2xl shadow-sm border border-purple-100 p-6">
+            <ChildProfileForm onComplete={() => navigate('/home')} />
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-lumio-cream flex flex-col items-center justify-center px-6">
+    <div className="min-h-screen bg-uppi-cream flex flex-col items-center justify-center px-6">
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
@@ -69,7 +69,7 @@ export default function OnboardingPage() {
           className="text-center max-w-md"
         >
           <div className="text-7xl mb-6">{ONBOARDING_STEPS[step].emoji}</div>
-          <h1 className="text-2xl font-bold text-lumio-dark mb-3">
+          <h1 className="text-2xl font-bold text-uppi-dark mb-3">
             {ONBOARDING_STEPS[step].title}
           </h1>
           <p className="text-gray-600 text-lg leading-relaxed">
@@ -83,7 +83,7 @@ export default function OnboardingPage() {
           <div
             key={i}
             className={`w-2.5 h-2.5 rounded-full transition-all ${
-              i === step ? 'bg-lumio-amber scale-125' : 'bg-amber-200'
+              i === step ? 'bg-uppi-primary scale-125' : 'bg-purple-200'
             }`}
           />
         ))}
@@ -97,7 +97,7 @@ export default function OnboardingPage() {
             setStep(step + 1)
           }
         }}
-        className="px-10 py-3 bg-lumio-amber text-white font-bold rounded-xl hover:bg-amber-600 transition-colors shadow-md text-lg"
+        className="px-10 py-3 bg-uppi-primary text-white font-bold rounded-xl hover:bg-purple-700 transition-colors shadow-md text-lg"
       >
         {isLastStep ? "Let's get started!" : 'Next'}
       </button>

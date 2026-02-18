@@ -54,7 +54,7 @@ export default function StoryRedirect({ onSubmit, onClose, loading }: Props) {
               key={s}
               type="button"
               onClick={() => setCommand(s)}
-              className="px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full text-sm hover:bg-amber-100 transition-colors"
+              className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-full text-sm hover:bg-purple-100 transition-colors"
             >
               {s}
             </button>
@@ -67,13 +67,13 @@ export default function StoryRedirect({ onSubmit, onClose, loading }: Props) {
             value={command}
             onChange={(e) => setCommand(e.target.value)}
             placeholder="Type what should happen..."
-            className="flex-1 px-4 py-3 rounded-xl border border-amber-200 focus:outline-none focus:ring-2 focus:ring-lumio-amber bg-amber-50/50"
+            className="flex-1 px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-uppi-primary bg-purple-50/50"
             autoFocus
           />
           <button
             type="submit"
             disabled={loading || !command.trim()}
-            className="px-6 py-3 bg-lumio-amber text-white font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50"
+            className="px-6 py-3 bg-uppi-primary text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
