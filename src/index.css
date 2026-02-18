@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lumio-yellow: #FBBF24;
+  --color-lumio-amber: #F59E0B;
+  --color-lumio-warm: #FEF3C7;
+  --color-lumio-dark: #92400E;
+  --color-lumio-cream: #FFFBEB;
+  --font-family-display: "Nunito", system-ui, sans-serif;
+  --font-family-body: "Nunito", system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-family-body);
+    background-color: var(--color-lumio-cream);
+    color: #1f2937;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
